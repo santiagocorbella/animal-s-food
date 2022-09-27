@@ -105,5 +105,20 @@ else if(productoCompra1 == "amici perro adulto mix x 22 kg"){
     precioTotal1 = cantidadProductoAmiciPerroAdultoMixX22Kg * precioProductoI   
 }
 
+//Utilización de while:ESC//
+
+let entrada =  prompt("1 -exact perro adulto x 25 kg\n2 exact gato adulto x 10 kg\n3 exact perro cachorro x 15 kg\n ESC -Salir");
+
+while(entrada != "ESC" ){
+  alert("El usuario ingresó "+ entrada);
+
+  entrada =  prompt("1 -exact perro adulto x 25 kg\n2 exact gato adulto x 10 kg\n3 exact perro cachorro x 15 kg\n ESC -Salir");
+} 
+
+// FUNCIONES//
+function bienvenido(){
+  alert("Bienvenido a animal's food")
+}
+bienvenido() 
 
               
