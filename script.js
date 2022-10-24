@@ -121,4 +121,451 @@ function bienvenido(){
 }
 bienvenido() 
 
+// Segunda Preentrega , Segundo Desafío
+
+// Objetos de JS
+
+//  Objetos (Escribir el Producto I como un Objeto) 
+
+let ProductoI = {
+  nombre: "amici perro adulto mix x 22 kg",
+  precio: 880,
+  stock: 40
+}
+
+// Objetos (Obteniendo Valores del Objeto) 
+
+if(productoCompra.toUpperCase() == "amici perro adulto mix x 22 kg"){
+    let cantidadProductoAmiciPerroAdultoMixX22Kg = prompt("ingrese que cantidad de " + ProductoI.nombre + "desea comprar:")
+    calculoStock(cantidadProductoAmiciPerroAdultoMixX22Kg, precioProductoI.stock, ProductoI.precio)
+    productoI.restarStock(cantidadProductoAmiciPerroAdultoMixX22Kg)
+}    
+
+// Objetos (Constructores) (Instancias)
+
+let productoI = {
+    nombre: "amici perro adulto mix x 22 kg",
+    precio: 880,
+    stock: 40
+}
+
+function producto(nombre, precio, stock){
+  this.nombre = nombre;
+  this.precio = precio;
+  this.stock = stock;
+}
+
+let productoJ = new producto("amici perro adulto carne x 20 kg",880,50)
+console.log(productoI)
+console.log(productoJ)
+
+//Objetos (Métodos Personalizados)
+
+function producto(nombre, precio, stock){
+  this.nombre = nombre;
+  this.precio = precio;
+  this.stock = stock;
+  this.restarStock = function(cantidad){
+      this.stock -= cantidad
+  }
+}
+
+//Objetos (Operador For)
+
+let productoG = new producto("ganacan perro adulto mix x 25 kg",800,20)
+for(const propiedad in productoG){
+    console.log(productoG [propiedad])
+}
+
+// ARRAY (Mostrar un solo elemento)
+
+let listaAlimentoGanacanPerro = [ "ganacan perro adulto mix x 25 kg", 850,"oferta"]
+
+console.log(listaAlimentoGanacanPerro[2])
+
+// ARRAY (Recorrido del Array)
+
+let listaPromociónTopNutricion = [ "top nutricion perro adulto small breed x 8 kg", 1200,"promoción"]
+
+for(let i = 0; i <= 2; i++){
+    console.log(listaPromociónTopNutricion[i])
+}
+
+//ARRAY(Propiedad Length)//
+
+let listaOportunidadAmiciPerroCachorro = [ "amici perro cachorro x 15 kg",850,"oportunidad"]
+console.log(listaOportunidadAmiciPerroCachorro.length)
+
+// ARRAY (Método Push)
+
+let OfertonNueveVidasX8Kg = ["nueve vidas gato adulto x 8 kg", 900]
+
+let sabor = prompt("Ingrese el sabor:")
+
+OfertonNueveVidasX8Kg.push(sabor)
+
+console.log(OfertonNueveVidasX8Kg)
+
+// ARRAY (Método Unshift)
+
+let promoAmiciPerroAdultox22Kg = ["amici perro adulto x 22 kg", 880]
+
+let gusto = prompt("ingrese el gusto:")
+
+promoAmiciPerroAdultox22Kg.unshift(gusto)
+
+console.log(promoAmiciPerroAdultox22Kg)
+
+// ARRAY -> (Quitar elementos-Pop) 
+
+let topNutricionPerroAdulto = ["top nutricion perro adulto raza grande","18 kg", 1300]
+
+topNutricionPerroAdulto.pop()
+
+console.log(topNutricionPerroAdulto)
+
+//ARRAY -> (quitar elementos-shift)
+
+let topNutricionPerroAdultoRazaPequeña = ["producto", "top nutricion perro adulto raza pequeña x 8 kg", 1200]
+
+topNutricionPerroAdultoRazaPequeña.shift()
+
+console.log(topNutricionPerroAdultoRazaPequeña)
+
+// ARRAY (Método Join)
+
+let ExactPerroAdulto = ["exact perro adulto", "25 kg",1000]
+console.log(ExactPerroAdulto.join(", "))
+
+// ARRAY (Método splice)
+
+const nombres = ["amici perro adulto mix x 25 kg","amici perro adulto carne x 22 kg","amici perro adulto cachorro x 15 kg","exact gato x 10 kg"];
+
+nombres.splice(1,2)
+
+console.log(nombres)
+
+//ARRAY (Método Includes)
+
+const names = ["exact gato x 10 kg","amici gato mix x 10 kg"," Exact perro cachorro x 15 kg","amici perro cachorro x 15 kg"]
+
+console.log(names.includes("exact gato x 10 kg"))
+
+console.log(names.includes("amici gato mix x 10 kg"))
+
+console.log(names.includes("dogui perro adulto carne x 20 kg "))
+
+//FUNCIONES DE ORDEN SUPERIOR (Abstracción)
+
+function sumarRango(a,b){
+    let numeros = []
+    for(let i = a; i <= b; i++){
+        numeros.push(i)
+    }
+    const total = numeros.reduce((acumulador, elemento) => acumulador + elemento, 0)    
+    return total
+  }
+  
+  
+let total = 0
+
+for (let i = 1; i <= 5; i++) {
+    total += i
+}
+
+console.log("ciclo:", total)
+
+console.log("funcion", sumarRango(1, 5) )
+
+//FUNCIONES DE ORDEN SUPERIOR (Recibir Funciones Por Parametros)
+
+function porCadaUno(array, fn) {
+    for (const elemento of array) {
+        fn(elemento)
+    }
+  }
+  
+  porCadaUno([1,3,4,5], console.log)
+
+  //FUNCIONES DE ORDEN SUPERIOR (Console.Log)
+
+  let enTotal = 0
+  function acumular(num) {
+   enTotal += num
+  }
+
+  
+  function porCadaUno(array, fn) {
+      for (const elemento of array) {
+          fn(elemento)
+      }
+    }
+    
+porCadaUno([2,3,4,8], acumular)
+
+console.log(enTotal)
+
+// FUNCIONES DE ORDEN SUPERIOR (For Each)
+
+const numeros =[1, 2, 3, 4 ,5 ,6]
+
+numeros.forEach( (num)=> {
+
+    console.log(num)
+
+} )      
+
+// FUNCIONES DE ORDEN SUPERIOR (Método Find)
+
+const alimentos = [
+
+    {nombre: "exact perro adulto x 25 kg", precio: 1000},
+
+    {nombre: "exact perro cachorro x 15 kg", precio: 800},
+
+]
+
+const resultado = alimentos.find((el) => el.nombre === "exact perro cachorro x 15 kg")
+
+const resultado2 = alimentos.find((el) => el.nombre === "dogui perro adulto carne x 20 kg")
+
+console.log(resultado)
+
+console.log(resultado2)
+
+// FUNCIONES DE ORDEN SUPERIOR (Método Some)
+
+console.log( alimentos.some((el) => el.nombre == "alpo perro cachorro x 15 kg"))
+
+console.log( alimentos.some((el) => el.nombre == "pedigree perro adulto pollo x 20 kg"))
+
+// FUNCIONES DE ORDEN SUPERIOR (Método Map)
+
+const alimentosBalanceados = [
+    {nombre: "amici perro adulto mix x 22 kg", precio: 895},
+    {nombre:"amici perro adulto carne x 22 kg", precio: 895},
+    {nombre:"amici perro cachorro x 15 kg", precio: 875},
+    {nombre:"exact perro adulto x 25 kg ", precio: 1150},
+]
+
+const nombress = alimentosBalanceados.map((el) => el.nombre)
+console.log(nombress)
+
+// FUNCIONES DE ORDEN SUPERIOR (Método Reduce)
+
+const numeross = [1, 2, 3, 4, 5, 6]
+const totall = numeros.reduce((acumulador, elemento) => acumulador + elemento, 0)
+
+console.log(totall)
+
+
+
+// FUNCIONES DE ORDEN SUPERIOR (Clase Date)
+
+console.log( new Date() )
+
+// FUNCIONES DE ORDEN SUPERIOR (Redondeo)
+
+const generadorNumero = () => {
+    return Math.round (Math.random() * 5 )
+}
+
+console.log( generadorNumero() )
+
+// TERCERA PREENTREGA , TERCER DESAFÍO
+
+//DOM (getElementById)
+
+let catalogo = document.getElementById("catalogo")
+
+console.log(catalogo)
+
+//DOM (getElementsByClassName)
+
+let balanceado = document. getElementsByClassName("balanceado")
+
+console.log(balanceado)
+
+// DOM (Propiedad innerText)
+
+catalogo.innerText = "bienvenido"
+
+console.log(catalogo.innerText)
+
+// DOM (Propiedad Class Name)
+
+let card = document.getElementsByClassName("card")
+
+console.log(card)
+
+card[0].className ="nuevaCard"
+
+//DOM (Agregar Nodo)
+
+let productJ = new producto("zimpi perro adulto x 15 kg", 500, 20)
+
+let listaProducts = [productJ]
+
+let listado = document.getElementById("listado")
+
+let cards = document.createElement("div")
+
+cards.innerHTML = "<h2>zimpi p adulto x 15kg</h2><p>precio:$500</p>"
+
+listado.append(cards)
+
+// EVENTOS (Método addEventListener())
+
+let boton = document.getElementById("primerBoton")
+
+boton.addEventListener("click", mostrarPorConsola)
+
+function mostrarPorConsola(){
+    console.log("Hiciste click")
+}
+
+//Eventos (Opción 2 -> Nombre del Evento y El Prefijo ON)
+
+let boton2 =
+
+document.getElementById ("btnPrincipal")
+
+boton2.onclick = () =>{console.log("Respuesta 2") }
+
+// Eventos (Eventos Del Mouse)
+
+let boton3 = document.getElementById("btnMain")
+
+boton3.onclick = () => {console.log("PUSH")}
+
+boton3.onmousemove = () => {console.log("Move")}
+
+// EVENTOS (Contador)
+
+let acumulador = 0
+
+function contador(){
+    acumulador += 1
+    console.log(acumulador)
+}
+
+let Boton4= document.getElementById("cuartoBoton")
+
+Boton4.addEventListener("click", contador)
+
+// EVENTOS(Eventos Change)
+
+let input1 = document.getElementById("compinche perro x 20 kg");
+
+let input2 = document.getElementById("$450");
+
+input1.onchange = () => {console.log("valor1")};
+
+input2.onchange = () => {console.log("valor2")};
+
+//EVENTOS (Elemento input)
+
+let input3 = document.getElementById("compinche gato x 20 kg")
+
+input3.addEventListener("input", () => {
+
+    console.log(input3.value)
+
+} )    
+
+//EVENTOS (Evento Submit)
+
+let miFormulario    =
+
+document.getElementById("formulario");
+
+miFormulario.addEventListener("submit", validarFormulario);
+
+
+function validarFormulario(e){
+
+e.preventDefault();
+
+console.log("Formulario Enviado");
+
+} 
+
+//STORAGE (localStorage - Setitem)
+
+localStorage.setItem("nuevoDato", "Santiago");
+localStorage.setItem("esValido", "true");
+localStorage.setItem("otroDato" , 39);
+
+//STORAGE (localStorage - getitem)
+
+let mensaje = localStorage.getItem("nuevoDato");
+let bandera = localStorage.getItem("esValido");
+let numero = localStorage.getItem("otroDato");
+
+console.log(mensaje);
+console.log(bandera);
+console.log(numero);
+
+//SESSIONSTORAGE (Setitem)
+
+sessionStorage.setItem("seleccionados" , [1,2,3]);
+sessionStorage.setItem("esValido", false);
+sessionStorage.setItem("email", "info@email.com");
+
+//SESSIONSTORAGE (getitem)
+
+let lista = sessionStorage.getItem("seleccionados").split(",");
+let bandera1 = (sessionStorage.getItem("esValido") == "true");
+let email = sessionStorage.getItem("email");
+
+console.log(typeof lista);
+console.log(typeof bandera1);
+console.log(typeof email);
+
+//RECORRIENDO EL STORAGE
+
+for (let i = 0; i < localStorage.lenght; i++) {
+    let clave = localStorage.key(i);
+
+    console.log("clave: "+ clave);
+    console.log("valor: "+ localStorage.getItem(clave));
+}
+
+// ALMACENAR OBJETOS EN STORAGE 
+
+const producto1 = { id: 2, producto: "Fiacas perro adulto x 15 kg" };
+localStorage.setItem("producto1", producto1);
+
+//JSON (Stringify)
+
+const producto3 = { id: 2, producto: "top nutricion gato adulto x 2,0 kg"};
+const enJSON    =JSON.stringify(producto3);
+
+console.log(enJSON);
+console.log(typeof producto3);
+console.log(typeof enJSON);
+
+localStorage.setItem("producto3", enJSON);
+
+//JSON (Almacenar Array De Objetos)
+
+const productos = [{ id: 3, producto: "top nutricion gato adulto x 2,0 kg",precio:300 },
+                   { id: 4, producto:"top nutricion gatito x 2,0 kg", precio:330 },
+                   { id: 5, producto:"top nutricion gato senior x 2,0 kg", precio:340},
+                   { id: 6, producto:"top nutricion perro senior x 3,0 kg", precio:290}];
+
+const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
+
+//almacenar array completo
+
+guardarLocal("listaProductos", JSON.stringify(productos));
+
+
+
+
+
+
+
+
+
               
