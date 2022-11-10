@@ -4,7 +4,6 @@ body {
     min-height: 1000vh;
     background-image: linear-gradient(to right, #8808c0, #a10acc, #b90cd7, #d20fe1, #eb12eb);
 }
-    
 header {
     grid-area:auto 
 }
@@ -16,8 +15,12 @@ html {
     grid-template-columns: 5vw 5vw 5vw;
     grid-template-areas:
     "nav header header"
+}
+a {
+    color:whitesmoke;
+    text-decoration: none;
+    display:flex;
 } 
-
 section {
     display: block;
     flex-direction:column;
@@ -45,10 +48,14 @@ h4 {
     color:white;
     font-size:25px;
     font-weight:lighter;
-}       
-span {
-    text-align: center;
 }
+h6 {
+    text-align: center;
+    color:yellow; 
+}
+div {
+    color: black;
+}                
 .plateadoenlace {
     color:silver;
 }
@@ -58,13 +65,16 @@ span {
 .negro {
     color:black;
 }       
-.arribaenlace {
-    transform: translate(10px, 1px); }
-a {
-    color:whitesmoke;
-    text-decoration: none;
-    display:flex;
-}
+.centerEnlaceArriba {
+        text-align: center;
+        transform: translate(100px, 100px);   
+        color:darkblue;
+        font-size:21px;
+}          
+
+.centro {
+    transform: translate(150px, 10px); }
+  
 .centroimguno {
     transform: translate(55px,20px);
 }    
@@ -83,7 +93,13 @@ a {
     background-color: blue;
     width: 100px;
     height:40px;
-}    
-        
+}
+.promoción{
+    border: 8px;
+    width: 100px;
+    height:40px;
+    color:white;
+}        
+
             
     

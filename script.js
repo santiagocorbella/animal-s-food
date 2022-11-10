@@ -1,564 +1,315 @@
-//ANIMAL'S FOOD//
 
-//PRIMER ARMADO DE UN PEQUEÑO FLUJO DEL PROYECTO://
-//2 productos -> mostrar productos-> el cliente quiere comprar-> ¿que cantidad?-> mostrar precio total de compra//
+  // CARRITO
+        const listaDeProductos = [
+       {
+           id: 1,
+           nombre: "Exact perro adulto x 25kg",
+           precio: 1000,
+           stock: 10
+       },
+       {
+           id: 2,
+           nombre: "Exact perro cachorro x 15kg",
+           precio: 800,
+           stock: 10
+       },
+       {
+           id: 3,
+           nombre: "Exact gato adulto x 10kg",
+           precio: 810,
+           stock: 10
+       },
+       {
+        id: 4,
+        nombre: "9 lives gato adulto salmon y atun x 8kg",
+        precio: 900,
+        stock: 8
+       },
+       {
+        id: 5,
+        nombre: "9 lives gato adulto carne seleccionada x 8kg",
+        precio: 900,
+        stock: 8
+       },
+       {
+       id: 6,
+       nombre: "9 lives gatito cachorro carne y leche x 8 kg",
+       precio: 950,
+       stock: 8
+       },
+       {
+       id: 7,
+       nombre: "Top nutrition perro adulto large breed x 18 kg",
+       precio: 1600,
+       stock: 5
+       },
+       {
+        id: 8,
+        nombre: "Top nutrition perro adulto small breed x 8 kg",
+        precio: 1200,
+        stock: 5
+        },
+        {
+        id: 9,
+        nombre: "Ganacan perro adulto mix x 25 kg",
+        precio: 800,
+        stock: 20
+        },
+        {
+        id: 10,
+        nombre: "Amici perro cachorro x 15 kg",
+        precio: 850,
+        stock: 15
+        },
+        {
+        id: 11,
+        nombre: "Amici perro adulto mix x 22 kg",
+        precio: 880,
+        stock: 20
+        },
+        {
+        id: 12,
+        nombre: "Amici perro adulto carne x 22 kg",
+        precio: 880,
+        stock: 20
+        },
+        {
+        id: 13,
+        nombre: "Zimpi perro adulto x 15 kg (oferta especial)",
+        precio: 500,
+        stock: 30
+        }
+        
+        
+   ]
 
-let nombreProductoA = "ExactPerroAdultoX25Kg"
-let precioProductoA= 1000
+   let catalog = document.getElementById('items')
+   let cartList = document.getElementById('carrito')
+   let buttonEmpty = document.getElementById('boton-vaciar')
+   let totalValue = document.getElementById('total')
+   let cart = []
 
-let nombreProductoB = "ExactPerroCachorroX15Kg"
-let precioProductoB= 800
+   buttonEmpty.addEventListener('click',emptyButtonHandler)
 
-alert("Acepte si quiere comprar: " + nombreProductoA + " y " + nombreProductoB)
+   loadCartFromStorage()
+   renderCart()
 
-let cantidadProductoA = prompt("ingrese que cantidad de " + nombreProductoA + "desea comprar:")
-let cantidadProductoB = prompt("ingrese que cantidad de " + nombreProductoB + "desea comprar:")
+   
+   listaDeProductos.forEach((prod) => {
+       let container = document.createElement('div')
+       container.classList.add('card', 'col-sm-4')
+        //BODY
+        let cardBody = document.createElement("div")
+        cardBody.classList.add('card-body')
+        //TITLE
+        let cardTitle = document.createElement("h5")
+        cardTitle.classList.add('card-title')
+        cardTitle.innerText = prod.nombre
+        //PRECIO
+        let cardPrice = document.createElement("p")
+        cardPrice.classList.add('card-text')
+        cardPrice.innerText = `$${prod.precio}`
+        //STOCK
+        let cardStock = document.createElement("p")
+        cardStock.classList.add('card-text')
+        cardStock.innerText = `Stock: ${prod.stock}`
+        //BUTTON
+        let cardButton = document.createElement("button")
+        cardButton.classList.add('btn', 'btn-primary')
+        cardButton.innerText = `comprar`
+        cardButton.setAttribute('mark', prod.id)
+        cardButton.addEventListener('click', addProdToCart)
 
-let precioTotalA = cantidadProductoA * precioProductoA
-let precioTotalB = cantidadProductoB * precioProductoB
+        cardBody.append(cardTitle)
+        cardBody.append(cardPrice)
+        cardBody.append(cardStock)
+        cardBody.append(cardButton)
+        container.append(cardBody)
+        catalog.append(container)
+   })
 
-let precioTotal = precioTotalA + precioTotalB
+function addProdToCart(event){
+    cart.push(event.target.getAttribute('mark'))
+    renderCart()
+    //LIBRERÍA TOASTIFY
+    Toastify({
+        text: "Agregaste correctamente el alimento al carrito",
+        className: "info",
+        style: {
+          background: "blue",
+        },
+        duration: 3000,
+        gravity:'bottom',
+        position:'left'
+      }).showToast();
+}    
+    
+function renderCart(){
 
-alert("El precio total es: " + precioTotal)
+    saveCartToStorage()
 
-// flujo con condicionales//
-//2 productos -> mostrar productos-> ¿compra?-> ¿que cantidad?-> mostrar precio total de compra//
-let nombreProductoC = "9 LIVES GATO ADULTO SALMON Y ATUN X 8 KG"
-let precioProductoC= 900
+    cartList.innerHTML = ''
 
-let nombreProductoD = "9 LIVES GATO ADULTO CARNE SELECCIONADA X 8 KG"
-let precioProductoD= 900
+    let cartWithoutRepeatedElements = [...new Set(cart)]
 
-let compra = prompt("ingrese SI si quiere comprar: " + nombreProductoC + " y " + nombreProductoD)
+    cartWithoutRepeatedElements.forEach((itemId) => {
+        let item = listaDeProductos.filter((producto) => {
+            return producto.id === parseInt(itemId)
+        })
+        let quantity = cart.reduce((total, id) => {
+            return id === itemId ? total += 1 : total
+        }, 0)
+   
 
-if(compra == "SI"){
+   let linea = document.createElement('li')
+   linea.classList.add('list-group-item','text-right', 'mx-2')
+   linea.innerText = `${quantity} x ${item[0].nombre} - $${item[0].precio}`
 
-let cantidadProductoC = prompt("ingrese que cantidad de " + nombreProductoC + "desea comprar:")
-let cantidadProductoD = prompt("ingrese que cantidad de " + nombreProductoD + "desea comprar:")
+   let buttonDelete = document.createElement('button')
+   buttonDelete.classList.add('btn', 'btn-danger', 'mx-5')
+   buttonDelete.innerText = 'X'
+   buttonDelete.dataset.item = itemId
+   buttonDelete.addEventListener('click' , deleteProduct)
 
-let precioTotalC = cantidadProductoC * precioProductoC
-let precioTotalD = cantidadProductoD * precioProductoD
+   linea.append(buttonDelete)
+   cartList.append(linea)
+    })
 
-let precioTotal = precioTotalC + precioTotalD 
-
-alert("El precio total es: " + precioTotal)    
+    totalValue.innerText = calculateTotalPrice()
 }
-alert("Gracias por su visita")
 
-//¿Que pasa si el usuario no quiere comprar dos productos y solo quiere uno ?
-// 2 productos -> mostrar productos->El usuario solo quiere comprar un producto->¿que cantidad?->mostrar precio total//
-
-let nombreProductoE = "top nutricion perro adulto raza grande x 18 kg"
-let precioProductoE= 1600
-
-let nombreProductoF = "top nutricion perro adulto small breed x 8 kg"
-let precioProductoF= 1200
-
-let productoCompra = prompt("Ingrese que producto quiere comprar: \n1 - top nutricion perro adulto raza grande x 18 kg \n2 - top nutricion perro adulto small breed x 8 kg")
-
-if(productoCompra == "top nutricion perro adulto raza grande x 18 kg"){
-  let cantidadProductoTopNutricionPerroAdultoRazaGrandeX18Kg = prompt("ingrese que cantidad de " + nombreProductoE + " desea comprar:")
-  let precioTotal = cantidadProductoTopNutricionPerroAdultoRazaGrandeX18Kg * precioProductoE  
-  alert("El precio total es: " + precioTotal) 
-}    
- else if(productoCompra == "top nutricion perro adulto small breed x 8 kg"){
-    let cantidadProductoTopNutricionPerroAdultoSmallBreedX8Kg = prompt("ingrese que cantidad de " + nombreProductoF + " desea comprar:")
-    let precioTotal = cantidadProductoTopNutricionPerroAdultoSmallBreedX8Kg * precioProductoF 
-    alert("El precio total es: " + precioTotal) 
-  }
-  else{
-    alert("no tenemos ese producto a la venta")
-  }
- //Que pasa si el usuario nos pide una cantidad mayor de mercaderia de un producto que nosotros no tenemos  en stock//
- // 3 productos -> mostrar productos->El usuario nos pide un cantidad mayor a la que tenemos en stock->
-let nombreProductoG = "ganacan perro adulto mix x 25 kg"
-let precioProductoG = 800
-let stockProductoG = 20
-
-let nombreProductoH = "amici perro cachorro x 15 kg"
-let precioProductoH = 850
-let stockProductoH = 30
-
-let nombreProductoI = "amici perro adulto mix x 22 kg"
-let precioProductoI = 880
-let stockProductoI = 40
-
-
-let productoCompra1 = prompt("Ingrese que producto quiere comprar: \n - ganacan perro adulto mix x 25 Kg\n - amici perro cachorro x 15 kg\n - amici perro adulto mix x 22 kg")
-let precioTotal1 = 0
-
-if(productoCompra1 == "ganacan perro adulto mix x 25 kg"){
-    let cantidadProductoGanacanPerroAdultoMixX25Kg = prompt("ingrese que cantidad de " + nombreProductoG + "desea comprar:")
-    if(cantidadProductoGanacanPerroAdultoMixX25Kg <= stockProductoG){
-        precioTotal1 = cantidadProductoGanacanPerroAdultoMixX25Kg * precioProductoG
-    }    
-    else{
-        alert("Actualmente tenemos " + stockProductoG + " unidades de este producto")
-    }
-}    
-else if (productoCompra1 == "amici perro cachorro x 15 kg"){
-    let cantidadProductoAmiciPerroCachorroX15Kg = prompt("ingrese que cantidad de " + nombreProductoH + "desea comprar:")
-    precioTotal1 = cantidadProductoAmiciPerroCachorroX15Kg * precioProductoH
-}    
-else if(productoCompra1 == "amici perro adulto mix x 22 kg"){
-    let cantidadProductoAmiciPerroAdultoMixX22Kg = prompt("ingrese que cantidad de " + nombreProductoI + "desea comprar:")
-    precioTotal1 = cantidadProductoAmiciPerroAdultoMixX22Kg * precioProductoI   
-}
-
-//Utilización de while:ESC//
-
-let entrada =  prompt("1 -exact perro adulto x 25 kg\n2 exact gato adulto x 10 kg\n3 exact perro cachorro x 15 kg\n ESC -Salir");
-
-while(entrada != "ESC" ){
-  alert("El usuario ingresó "+ entrada);
-
-  entrada =  prompt("1 -exact perro adulto x 25 kg\n2 exact gato adulto x 10 kg\n3 exact perro cachorro x 15 kg\n ESC -Salir");
+function deleteProduct(event){
+ let id = event.target.dataset.item
+ cart = cart.filter((cartId) => {
+    return cartId != id
+})
+renderCart()
 } 
 
-// FUNCIONES//
-function bienvenido(){
-  alert("Bienvenido a animal's food")
-}
-bienvenido() 
-
-// Segunda Preentrega , Segundo Desafío
-
-// Objetos de JS
-
-//  Objetos (Escribir el Producto I como un Objeto) 
-
-let ProductoI = {
-  nombre: "amici perro adulto mix x 22 kg",
-  precio: 880,
-  stock: 40
+function emptyButtonHandler(){
+cart = []
+cartList.innerHTML = ''
+totalValue.innerText = 0
 }
 
-// Objetos (Obteniendo Valores del Objeto) 
+function calculateTotalPrice(){
+    return cart.reduce((total, itemId) => {
+        let item = listaDeProductos.filter((producto) => {
+            return producto.id === parseInt(itemId)
+        })
 
-if(productoCompra.toUpperCase() == "amici perro adulto mix x 22 kg"){
-    let cantidadProductoAmiciPerroAdultoMixX22Kg = prompt("ingrese que cantidad de " + ProductoI.nombre + "desea comprar:")
-    calculoStock(cantidadProductoAmiciPerroAdultoMixX22Kg, precioProductoI.stock, ProductoI.precio)
-    productoI.restarStock(cantidadProductoAmiciPerroAdultoMixX22Kg)
-}    
-
-// Objetos (Constructores) (Instancias)
-
-let productoI = {
-    nombre: "amici perro adulto mix x 22 kg",
-    precio: 880,
-    stock: 40
+        return total + item[0].precio
+    }, 0)
+} 
+//  ALMACENAR EN EL STORAGE
+function saveCartToStorage(){
+    localStorage.setItem('cart', JSON.stringify(cart))
 }
 
-function producto(nombre, precio, stock){
-  this.nombre = nombre;
-  this.precio = precio;
-  this.stock = stock;
-}
-
-let productoJ = new producto("amici perro adulto carne x 20 kg",880,50)
-console.log(productoI)
-console.log(productoJ)
-
-//Objetos (Métodos Personalizados)
-
-function producto(nombre, precio, stock){
-  this.nombre = nombre;
-  this.precio = precio;
-  this.stock = stock;
-  this.restarStock = function(cantidad){
-      this.stock -= cantidad
-  }
-}
-
-//Objetos (Operador For)
-
-let productoG = new producto("ganacan perro adulto mix x 25 kg",800,20)
-for(const propiedad in productoG){
-    console.log(productoG [propiedad])
-}
-
-// ARRAY (Mostrar un solo elemento)
-
-let listaAlimentoGanacanPerro = [ "ganacan perro adulto mix x 25 kg", 850,"oferta"]
-
-console.log(listaAlimentoGanacanPerro[2])
-
-// ARRAY (Recorrido del Array)
-
-let listaPromociónTopNutricion = [ "top nutricion perro adulto small breed x 8 kg", 1200,"promoción"]
-
-for(let i = 0; i <= 2; i++){
-    console.log(listaPromociónTopNutricion[i])
-}
-
-//ARRAY(Propiedad Length)//
-
-let listaOportunidadAmiciPerroCachorro = [ "amici perro cachorro x 15 kg",850,"oportunidad"]
-console.log(listaOportunidadAmiciPerroCachorro.length)
-
-// ARRAY (Método Push)
-
-let OfertonNueveVidasX8Kg = ["nueve vidas gato adulto x 8 kg", 900]
-
-let sabor = prompt("Ingrese el sabor:")
-
-OfertonNueveVidasX8Kg.push(sabor)
-
-console.log(OfertonNueveVidasX8Kg)
-
-// ARRAY (Método Unshift)
-
-let promoAmiciPerroAdultox22Kg = ["amici perro adulto x 22 kg", 880]
-
-let gusto = prompt("ingrese el gusto:")
-
-promoAmiciPerroAdultox22Kg.unshift(gusto)
-
-console.log(promoAmiciPerroAdultox22Kg)
-
-// ARRAY -> (Quitar elementos-Pop) 
-
-let topNutricionPerroAdulto = ["top nutricion perro adulto raza grande","18 kg", 1300]
-
-topNutricionPerroAdulto.pop()
-
-console.log(topNutricionPerroAdulto)
-
-//ARRAY -> (quitar elementos-shift)
-
-let topNutricionPerroAdultoRazaPequeña = ["producto", "top nutricion perro adulto raza pequeña x 8 kg", 1200]
-
-topNutricionPerroAdultoRazaPequeña.shift()
-
-console.log(topNutricionPerroAdultoRazaPequeña)
-
-// ARRAY (Método Join)
-
-let ExactPerroAdulto = ["exact perro adulto", "25 kg",1000]
-console.log(ExactPerroAdulto.join(", "))
-
-// ARRAY (Método splice)
-
-const nombres = ["amici perro adulto mix x 25 kg","amici perro adulto carne x 22 kg","amici perro adulto cachorro x 15 kg","exact gato x 10 kg"];
-
-nombres.splice(1,2)
-
-console.log(nombres)
-
-//ARRAY (Método Includes)
-
-const names = ["exact gato x 10 kg","amici gato mix x 10 kg"," Exact perro cachorro x 15 kg","amici perro cachorro x 15 kg"]
-
-console.log(names.includes("exact gato x 10 kg"))
-
-console.log(names.includes("amici gato mix x 10 kg"))
-
-console.log(names.includes("dogui perro adulto carne x 20 kg "))
-
-//FUNCIONES DE ORDEN SUPERIOR (Abstracción)
-
-function sumarRango(a,b){
-    let numeros = []
-    for(let i = a; i <= b; i++){
-        numeros.push(i)
+function loadCartFromStorage(){
+    if(localStorage.getItem('cart') !== null){
+        cart = JSON.parse(localStorage.getItem('cart'))
     }
-    const total = numeros.reduce((acumulador, elemento) => acumulador + elemento, 0)    
-    return total
-  }
-  
-  
-let total = 0
-
-for (let i = 1; i <= 5; i++) {
-    total += i
 }
 
-console.log("ciclo:", total)
+//DOM (getElementById, innerHtml)
 
-console.log("funcion", sumarRango(1, 5) )
+let oferta = document.getElementById("oferta")
 
-//FUNCIONES DE ORDEN SUPERIOR (Recibir Funciones Por Parametros)
+let promoción = document.createElement("div")
 
-function porCadaUno(array, fn) {
-    for (const elemento of array) {
-        fn(elemento)
-    }
-  }
-  
-  porCadaUno([1,3,4,5], console.log)
+promoción.innerHTML = "<h3>zimpi perro adulto x 15 kg,Precio: $500</h3>"
 
-  //FUNCIONES DE ORDEN SUPERIOR (Console.Log)
-
-  let enTotal = 0
-  function acumular(num) {
-   enTotal += num
-  }
-
-  
-  function porCadaUno(array, fn) {
-      for (const elemento of array) {
-          fn(elemento)
-      }
-    }
-    
-porCadaUno([2,3,4,8], acumular)
-
-console.log(enTotal)
-
-// FUNCIONES DE ORDEN SUPERIOR (For Each)
-
-const numeros =[1, 2, 3, 4 ,5 ,6]
-
-numeros.forEach( (num)=> {
-
-    console.log(num)
-
-} )      
-
-// FUNCIONES DE ORDEN SUPERIOR (Método Find)
-
-const alimentos = [
-
-    {nombre: "exact perro adulto x 25 kg", precio: 1000},
-
-    {nombre: "exact perro cachorro x 15 kg", precio: 800},
-
-]
-
-const resultado = alimentos.find((el) => el.nombre === "exact perro cachorro x 15 kg")
-
-const resultado2 = alimentos.find((el) => el.nombre === "dogui perro adulto carne x 20 kg")
-
-console.log(resultado)
-
-console.log(resultado2)
-
-// FUNCIONES DE ORDEN SUPERIOR (Método Some)
-
-console.log( alimentos.some((el) => el.nombre == "alpo perro cachorro x 15 kg"))
-
-console.log( alimentos.some((el) => el.nombre == "pedigree perro adulto pollo x 20 kg"))
-
-// FUNCIONES DE ORDEN SUPERIOR (Método Map)
-
-const alimentosBalanceados = [
-    {nombre: "amici perro adulto mix x 22 kg", precio: 895},
-    {nombre:"amici perro adulto carne x 22 kg", precio: 895},
-    {nombre:"amici perro cachorro x 15 kg", precio: 875},
-    {nombre:"exact perro adulto x 25 kg ", precio: 1150},
-]
-
-const nombress = alimentosBalanceados.map((el) => el.nombre)
-console.log(nombress)
-
-// FUNCIONES DE ORDEN SUPERIOR (Método Reduce)
-
-const numeross = [1, 2, 3, 4, 5, 6]
-const totall = numeros.reduce((acumulador, elemento) => acumulador + elemento, 0)
-
-console.log(totall)
-
-
-
-// FUNCIONES DE ORDEN SUPERIOR (Clase Date)
-
-console.log( new Date() )
-
-// FUNCIONES DE ORDEN SUPERIOR (Redondeo)
-
-const generadorNumero = () => {
-    return Math.round (Math.random() * 5 )
-}
-
-console.log( generadorNumero() )
-
-// TERCERA PREENTREGA , TERCER DESAFÍO
-
-//DOM (getElementById)
-
-let catalogo = document.getElementById("catalogo")
-
-console.log(catalogo)
-
-//DOM (getElementsByClassName)
-
-let balanceado = document. getElementsByClassName("balanceado")
-
-console.log(balanceado)
+oferta.append(promoción)
 
 // DOM (Propiedad innerText)
 
-catalogo.innerText = "bienvenido"
+entrega.innerText = "HACEMOS ENTREGA DE LOS PRODUCTOS SIN CARGO DENTRO DE CÓRDOBA CAPITAL.CONTAMOS CON NUESTROS PROPIOS VEHÍCULOS PARA HACER LOS REPARTOS DE LA MERCADERÍA."
 
-console.log(catalogo.innerText)
+// EVENTOS(EVENTOS CHANGE)
+//para que el usuario deje su nombre y su número de teléfono
 
-// DOM (Propiedad Class Name)
+let input1 = document.getElementById("tu nombre");
 
-let card = document.getElementsByClassName("card")
+let input2 = document.getElementById("tu número de teléfono");
 
-console.log(card)
+//LOCAL STORAGE (SetItem)
 
-card[0].className ="nuevaCard"
-
-//DOM (Agregar Nodo)
-
-let productJ = new producto("zimpi perro adulto x 15 kg", 500, 20)
-
-let listaProducts = [productJ]
-
-let listado = document.getElementById("listado")
-
-let cards = document.createElement("div")
-
-cards.innerHTML = "<h2>zimpi p adulto x 15kg</h2><p>precio:$500</p>"
-
-listado.append(cards)
-
-// EVENTOS (Método addEventListener())
-
-let boton = document.getElementById("primerBoton")
-
-boton.addEventListener("click", mostrarPorConsola)
-
-function mostrarPorConsola(){
-    console.log("Hiciste click")
-}
-
-//Eventos (Opción 2 -> Nombre del Evento y El Prefijo ON)
-
-let boton2 =
-
-document.getElementById ("btnPrincipal")
-
-boton2.onclick = () =>{console.log("Respuesta 2") }
-
-// Eventos (Eventos Del Mouse)
-
-let boton3 = document.getElementById("btnMain")
-
-boton3.onclick = () => {console.log("PUSH")}
-
-boton3.onmousemove = () => {console.log("Move")}
-
-// EVENTOS (Contador)
-
-let acumulador = 0
-
-function contador(){
-    acumulador += 1
-    console.log(acumulador)
-}
-
-let Boton4= document.getElementById("cuartoBoton")
-
-Boton4.addEventListener("click", contador)
-
-// EVENTOS(Eventos Change)
-
-let input1 = document.getElementById("compinche perro x 20 kg");
-
-let input2 = document.getElementById("$450");
-
-input1.onchange = () => {console.log("valor1")};
-
-input2.onchange = () => {console.log("valor2")};
-
-//EVENTOS (Elemento input)
-
-let input3 = document.getElementById("compinche gato x 20 kg")
-
-input3.addEventListener("input", () => {
-
-    console.log(input3.value)
-
-} )    
-
-//EVENTOS (Evento Submit)
-
-let miFormulario    =
-
-document.getElementById("formulario");
-
-miFormulario.addEventListener("submit", validarFormulario);
-
-
-function validarFormulario(e){
-
-e.preventDefault();
-
-console.log("Formulario Enviado");
-
-} 
-
-//STORAGE (localStorage - Setitem)
-
-localStorage.setItem("nuevoDato", "Santiago");
-localStorage.setItem("esValido", "true");
-localStorage.setItem("otroDato" , 39);
-
-//STORAGE (localStorage - getitem)
-
-let mensaje = localStorage.getItem("nuevoDato");
-let bandera = localStorage.getItem("esValido");
-let numero = localStorage.getItem("otroDato");
-
-console.log(mensaje);
-console.log(bandera);
-console.log(numero);
-
-//SESSIONSTORAGE (Setitem)
-
-sessionStorage.setItem("seleccionados" , [1,2,3]);
-sessionStorage.setItem("esValido", false);
-sessionStorage.setItem("email", "info@email.com");
-
-//SESSIONSTORAGE (getitem)
-
-let lista = sessionStorage.getItem("seleccionados").split(",");
-let bandera1 = (sessionStorage.getItem("esValido") == "true");
-let email = sessionStorage.getItem("email");
-
-console.log(typeof lista);
-console.log(typeof bandera1);
-console.log(typeof email);
-
-//RECORRIENDO EL STORAGE
-
-for (let i = 0; i < localStorage.lenght; i++) {
-    let clave = localStorage.key(i);
-
-    console.log("clave: "+ clave);
-    console.log("valor: "+ localStorage.getItem(clave));
-}
+localStorage.setItem("nuevoDato", "Santiago Eloy Corbella")
+localStorage.setItem("otroDatoNuevo", "39 Años")
+localStorage.setItem("otroDato", "Estudiante de Coder House")
+localStorage.setItem("otroDatoMás","Animal'S Food")
 
 // ALMACENAR OBJETOS EN STORAGE 
 
-const producto1 = { id: 2, producto: "Fiacas perro adulto x 15 kg" };
-localStorage.setItem("producto1", producto1);
+const producto14 = { id: 14, producto: "Fiacas perro adulto x 15 kg precio=$450" };
+localStorage.setItem("producto14", producto14);
 
-//JSON (Stringify)
+//JSON (ALMACENAR ARRAY DE OBJETOS)
+// Estos productos todavía no están a la venta en la tienda en línea , se está analizando si serán lanzados a la venta o no.
 
-const producto3 = { id: 2, producto: "top nutricion gato adulto x 2,0 kg"};
-const enJSON    =JSON.stringify(producto3);
-
-console.log(enJSON);
-console.log(typeof producto3);
-console.log(typeof enJSON);
-
-localStorage.setItem("producto3", enJSON);
-
-//JSON (Almacenar Array De Objetos)
-
-const productos = [{ id: 3, producto: "top nutricion gato adulto x 2,0 kg",precio:300 },
-                   { id: 4, producto:"top nutricion gatito x 2,0 kg", precio:330 },
-                   { id: 5, producto:"top nutricion gato senior x 2,0 kg", precio:340},
-                   { id: 6, producto:"top nutricion perro senior x 3,0 kg", precio:290}];
+const productos = [{ id: 15, producto: "top nutricion gato adulto x 2,0 kg",precio:300 },
+                   { id: 16, producto:"top nutricion gatito x 2,0 kg", precio:330 },
+                   { id: 17, producto:"top nutricion gato senior x 2,0 kg", precio:340},
+                   { id: 18, producto:"top nutricion perro senior x 3,0 kg", precio:290}];
 
 const guardarLocal = (clave, valor) => { localStorage.setItem(clave, valor) };
 
-//almacenar array completo
+//ALMACENAR ARRAY COMPLETO
 
 guardarLocal("listaProductos", JSON.stringify(productos));
+
+//MÉTODO FETCH
+
+/*document.getElementById('jsonBtn').addEventListener('click', cargarJSON);
+function cargarJSON() {
+    fetch('alimentos.json')
+       .then(function(res) {
+           return res.json();
+        })
+        .then(function(data){
+            let html ='';
+            data.forEach(function(alimento) {
+                html +=`
+                     <li>${alimento.nombre} ${alimento.sabor}</li>
+                `;
+            })
+            document.getElementById('resultado').innerHTML = html;
+        })               
+    } 
+    */
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+       
+
+        
+
+   
+       
+                         
+
+
 
 
 
